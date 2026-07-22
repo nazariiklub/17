@@ -4,6 +4,8 @@ export class DeviceOrientationController {
 
     constructor(camera) {
 
+        
+
         this.camera = camera;
 
         this.enabled = false;
@@ -13,6 +15,7 @@ export class DeviceOrientationController {
         this.alpha = 0;
         this.beta = 0;
         this.gamma = 0;
+        
 
         this.zee = new THREE.Vector3(0, 0, 1);
 
@@ -27,7 +30,11 @@ export class DeviceOrientationController {
             Math.sqrt(0.5)
         );
 
+        
+
         this.quaternion = new THREE.Quaternion();
+
+        this.targetQuaternion = new THREE.Quaternion();
 
         this.offset = new THREE.Quaternion();
 
@@ -58,9 +65,11 @@ export class DeviceOrientationController {
             "deviceorientation",
             (event) => {
 
-                this.alpha = event.alpha || 0;
-                this.beta = event.beta || 0;
-                this.gamma = event.gamma || 0;
+                const smooth = 0.18;
+
+this.alpha += ((event.alpha || 0) - this.alpha) * smooth;
+this.beta += ((event.beta || 0) - this.beta) * smooth;
+this.gamma += ((event.gamma || 0) - this.gamma) * smooth;
 
             }
         );
@@ -118,9 +127,12 @@ export class DeviceOrientationController {
 
         const target = this.offset.clone().multiply(this.quaternion);
 
+this.targetQuaternion.copy(this.offset);
+this.targetQuaternion.multiply(this.quaternion);
+
 this.camera.quaternion.slerp(
-    target,
-    0.8
+    this.targetQuaternion,
+    0.1
 );
 
     }
