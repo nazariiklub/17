@@ -23,7 +23,7 @@ const scene = createScene();
 const camera = createCamera();
 const renderer = createRenderer();
 const controller = new CameraController(camera);
-
+createGyroControls(controller);
 
 
 const light = createLight();
@@ -49,7 +49,7 @@ for (let i = 0; i < 36; i++) {
 }
 console.log(images.length);
 // Масив створених об'єктів
-const photos = [];
+
 
 images.forEach((image, index) => {
 loader.load(image, (texture) => {
@@ -71,7 +71,6 @@ photo.lookAt(0, 0, 0);
 
 
     scene.add(photo);
-    createGyroControls();
 
 });
 });

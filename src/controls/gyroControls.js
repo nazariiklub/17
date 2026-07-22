@@ -1,4 +1,6 @@
-export function createGyroControls() {
+import * as THREE from "three";
+
+export function createGyroControls(controller) {
 
     const button = document.getElementById("gyroButton");
 
@@ -20,13 +22,18 @@ export function createGyroControls() {
 
         window.addEventListener("deviceorientation", (event) => {
 
-            console.clear();
+    if (
+        event.alpha === null ||
+        event.beta === null ||
+        event.gamma === null
+    ) return;
 
-            console.log("alpha:", event.alpha);
-            console.log("beta :", event.beta);
-            console.log("gamma:", event.gamma);
+    const yaw = THREE.MathUtils.degToRad(event.alpha);
+const pitch = THREE.MathUtils.degToRad(event.beta - 90);
 
-        });
+controller.setRotation(yaw, pitch);
+
+});
 
         button.style.display = "none";
 
