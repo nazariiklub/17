@@ -1,0 +1,1 @@
+html,body{margin:0;padding:0;overflow:hidden}canvas{display:block}#gyroButton{cursor:pointer;z-index:1000;border:none;border-radius:14px;padding:14px 22px;font-size:18px;position:fixed;bottom:30px;left:50%;transform:translate(-50%)}
