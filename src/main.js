@@ -11,6 +11,12 @@ import { createMouseLook } from "./controls/mouseLook";
 import { CameraController } from "./controls/cameraController";
 import { createGyroControls } from "./controls/gyroControls";
 import { DeviceOrientationController } from "./controls/deviceOrientation";
+import { createSpace } from "./objects/Space";
+import { createStars } from "./effects/Stars";
+import { createMoon } from "./effects/Moon";
+import { createNebula } from "./effects/Nebula.js";
+
+
 
 import photo1 from './assets/photos/1.jpg';
 import photo2 from './assets/photos/2.png';
@@ -26,6 +32,16 @@ const renderer = createRenderer();
 const controller = new CameraController(camera);
 const gyro = new DeviceOrientationController(camera);
 createGyroControls(gyro);
+const space = createSpace();
+scene.add(space)
+const stars = createStars();
+scene.add(stars);;
+const moon = createMoon();
+scene.add(moon);
+scene.add(createNebula());
+
+
+
 
 
 const light = createLight();
