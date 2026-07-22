@@ -10,6 +10,7 @@ import { getPhotoPosition } from './utils/sphereLayout';
 import { createMouseLook } from "./controls/mouseLook";
 import { CameraController } from "./controls/cameraController";
 import { createGyroControls } from "./controls/gyroControls";
+import { DeviceOrientationController } from "./controls/deviceOrientation";
 
 import photo1 from './assets/photos/1.jpg';
 import photo2 from './assets/photos/2.png';
@@ -23,7 +24,8 @@ const scene = createScene();
 const camera = createCamera();
 const renderer = createRenderer();
 const controller = new CameraController(camera);
-createGyroControls(controller);
+const gyro = new DeviceOrientationController(camera);
+createGyroControls(gyro);
 
 
 const light = createLight();
@@ -81,7 +83,7 @@ createMouseLook(controller);
 function animate() {
     requestAnimationFrame(animate);
 
-    
+    gyro.update();
     renderer.render(scene, camera);
 }
 
