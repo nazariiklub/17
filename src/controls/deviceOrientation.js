@@ -116,11 +116,12 @@ export class DeviceOrientationController {
 
         this.quaternion.multiply(this.q0);
 
-        this.camera.quaternion.copy(
-            this.offset
-        ).multiply(
-            this.quaternion
-        );
+        const target = this.offset.clone().multiply(this.quaternion);
+
+this.camera.quaternion.slerp(
+    target,
+    0.8
+);
 
     }
 
