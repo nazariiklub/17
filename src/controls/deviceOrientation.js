@@ -65,11 +65,9 @@ export class DeviceOrientationController {
             "deviceorientation",
             (event) => {
 
-                const smooth = 0.18;
-
-this.alpha += ((event.alpha || 0) - this.alpha) * smooth;
-this.beta += ((event.beta || 0) - this.beta) * smooth;
-this.gamma += ((event.gamma || 0) - this.gamma) * smooth;
+                this.alpha = event.alpha || 0;
+this.beta = event.beta || 0;
+this.gamma = event.gamma || 0;
 
             }
         );
@@ -132,7 +130,7 @@ this.targetQuaternion.multiply(this.quaternion);
 
 this.camera.quaternion.slerp(
     this.targetQuaternion,
-    0.1
+    0.05
 );
 
     }
