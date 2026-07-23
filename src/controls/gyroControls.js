@@ -12,6 +12,14 @@ export function createGyroControls(gyro) {
             const permission =
                 await DeviceOrientationEvent.requestPermission();
 
+                setTimeout(() => {
+
+    window.dispatchEvent(
+        new Event("resize")
+    );
+
+}, 100);
+
             if (permission !== "granted") {
 
                 alert("Доступ не надано");
@@ -25,6 +33,12 @@ export function createGyroControls(gyro) {
         gyro.connect();
 
         button.style.display = "none";
+
+        const element = document.documentElement;
+
+if (element.requestFullscreen) {
+    element.requestFullscreen();
+}
 
     });
 

@@ -14,7 +14,13 @@ export function createPhoto(texture) {
     const material = new THREE.MeshBasicMaterial({
     map: texture,
     side: THREE.DoubleSide
+
+    
 });
+
+texture.generateMipmaps = false;
+texture.minFilter = THREE.LinearFilter;
+texture.magFilter = THREE.LinearFilter;
 
 
     return new THREE.Mesh(geometry, material);

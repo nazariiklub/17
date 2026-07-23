@@ -18,12 +18,7 @@ import { createNebula } from "./effects/Nebula.js";
 
 
 
-import photo1 from './assets/photos/1.jpg';
-import photo2 from './assets/photos/2.png';
-import photo3 from './assets/photos/3.png';
-import photo4 from './assets/photos/4.png';
-import photo5 from './assets/photos/5.png';
-import photo6 from './assets/photos/6.png';
+import photos from "./assets/photos";
 
 // Створюємо сцену
 const scene = createScene();
@@ -43,6 +38,38 @@ scene.add(createNebula());
 
 
 
+function resizeRenderer() {
+
+    camera.aspect = window.innerWidth / window.innerHeight;
+
+    camera.updateProjectionMatrix();
+
+    renderer.setSize(
+        window.innerWidth,
+        window.innerHeight
+    );
+
+    renderer.setPixelRatio(
+        Math.min(window.devicePixelRatio, 2)
+    );
+
+}
+
+resizeRenderer();
+
+window.addEventListener(
+    "resize",
+    resizeRenderer
+);
+
+document.addEventListener(
+    "fullscreenchange",
+    resizeRenderer
+);
+
+
+
+
 
 const light = createLight();
 scene.add(light);
@@ -51,47 +78,42 @@ scene.add(light);
 const loader = new THREE.TextureLoader();
 
 // Масив фотографій
-const originalImages = [
-    photo1,
-    photo2,
-    photo3,
-    photo4,
-    photo5,
-    photo6
-];
+const images = photos;
 
-const images = [];
-
-for (let i = 0; i < 36; i++) {
-    images.push(originalImages[i % originalImages.length]);
-}
 console.log(images.length);
 // Масив створених об'єктів
 
 
-images.forEach((image, index) => {
-loader.load(image, (texture) => {
+let currentPhoto = 0;
 
-    const photo = createPhoto(texture);
+function loadNextPhoto() {
 
-const { x, y, z } = getPhotoPosition(index, images.length);
+    if (currentPhoto >= images.length) return;
 
-photo.position.set(x, y, z);
-const sphere = new THREE.Mesh(
-    new THREE.SphereGeometry(0.2),
-    new THREE.MeshBasicMaterial({ color: 0xff0000 })
-);
+    loader.load(images[currentPhoto], (texture) => {
 
+        const photo = createPhoto(texture);
 
- 
-scene.add(sphere);
-photo.lookAt(0, 0, 0);
+        const { x, y, z } = getPhotoPosition(
+            currentPhoto,
+            images.length
+        );
 
+        photo.position.set(x, y, z);
 
-    scene.add(photo);
+        photo.lookAt(0, 0, 0);
 
-});
-});
+        scene.add(photo);
+
+        currentPhoto++;
+
+        requestAnimationFrame(loadNextPhoto);
+
+    });
+
+}
+
+loadNextPhoto();
 
 
 createMouseLook(controller);
