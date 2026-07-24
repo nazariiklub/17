@@ -66,8 +66,8 @@ export class PhotoViewer {
 
         const canvas = document.createElement("canvas");
 
-        canvas.width = 900;
-        canvas.height = 200;
+        canvas.width = 1050;
+        canvas.height = 220;
 
         const ctx = canvas.getContext("2d");
 
