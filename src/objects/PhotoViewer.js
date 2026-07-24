@@ -79,6 +79,9 @@ const geometry = new THREE.PlaneGeometry(
 
     this.targetScale = this.camera.aspect / aspect;
 
+    this.photo.scale.set(0.01, 0.01, 0.01);
+this.targetScale = scale;
+
 }
 
         // ---------- Підпис ----------
