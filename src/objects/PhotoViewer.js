@@ -81,7 +81,12 @@ export class PhotoViewer {
 
         ctx.fillStyle = "#ffffff";
 
-        ctx.font = "600 74px 'Cormorant Garamond'";
+        const fontSize = Math.min(
+    74,
+    Math.max(46, 900 / place.length)
+);
+
+ctx.font = `600 ${fontSize}px 'Cormorant Garamond'`;
 
         ctx.textAlign = "center";
 
