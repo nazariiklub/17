@@ -18,11 +18,10 @@ export class PhotoViewer {
 
         if (this.photo) {
 
-            this.scene.remove(this.photo);
+            this.camera.remove(this.photo);
 
         }
 
-        // Пропорції фото
         const image = texture.image;
         const aspect = image.width / image.height;
 
@@ -53,35 +52,65 @@ export class PhotoViewer {
 
         this.targetScale = 1;
 
-const canvas = document.createElement("canvas");
+        // ---------- Підпис ----------
 
-canvas.width = 1024;
-canvas.height = 180;
+        const canvas = document.createElement("canvas");
 
-const ctx = canvas.getContext("2d");
+        canvas.width = 1200;
+        canvas.height = 260;
 
-ctx.fillStyle = "rgba(0,0,0,0.35)";
-ctx.fillRect(0,0,canvas.width,canvas.height);
+        const ctx = canvas.getContext("2d");
 
-ctx.fillStyle = "white";
+        ctx.fillStyle = "rgba(0,0,0,.22)";
+        ctx.fillRect(
+            0,
+            0,
+            canvas.width,
+            canvas.height
+        );
 
-ctx.font = "52px Arial";
+        ctx.fillStyle = "#ffffff";
 
-ctx.textAlign = "center";
+        ctx.font = "600 74px 'Cormorant Garamond'";
 
-ctx.fillText(
-    place,
-    canvas.width / 2,
-    70
-);
+        ctx.textAlign = "center";
 
-ctx.font = "42px Arial";
+        ctx.shadowColor = "rgba(255,255,255,.15)";
+        ctx.shadowBlur = 12;
 
-ctx.fillText(
-    year,
-    canvas.width / 2,
-    140
-);
+        ctx.fillText(
+            place,
+            canvas.width / 2,
+            82
+        );
+
+        ctx.shadowBlur = 0;
+
+        ctx.globalAlpha = .28;
+
+        ctx.beginPath();
+
+        ctx.moveTo(420,120);
+
+        ctx.lineTo(780,120);
+
+        ctx.strokeStyle = "#ffffff";
+
+        ctx.lineWidth = 2;
+
+        ctx.stroke();
+
+        ctx.globalAlpha = 1;
+
+        ctx.fillStyle = "rgba(255,255,255,.82)";
+
+        ctx.font = "400 42px 'Cormorant Garamond'";
+
+        ctx.fillText(
+            year,
+            canvas.width / 2,
+            182
+        );
 
         const labelTexture = new THREE.CanvasTexture(canvas);
 
@@ -90,15 +119,22 @@ ctx.fillText(
             new THREE.SpriteMaterial({
 
                 map: labelTexture,
-                transparent: true
+
+                transparent: true,
+
+                depthTest: false
 
             })
 
         );
 
-        label.scale.set(2.5, 0.6, 1);
+        label.scale.set(7.5,1.65,1);
 
-        label.position.set(0, -2.2, 0);
+        label.position.set(
+            0,
+            -2.35,
+            0
+        );
 
         this.photo.add(label);
 
@@ -106,15 +142,15 @@ ctx.fillText(
 
     close() {
 
-    if (!this.photo) return;
+        if (!this.photo) return;
 
-    this.camera.remove(this.photo);
+        this.camera.remove(this.photo);
 
-    this.photo = null;
+        this.photo = null;
 
-    this.isOpen = false;
+        this.isOpen = false;
 
-}
+    }
 
     update() {
 
@@ -123,9 +159,13 @@ ctx.fillText(
         this.photo.scale.lerp(
 
             new THREE.Vector3(
+
                 this.targetScale,
+
                 this.targetScale,
+
                 this.targetScale
+
             ),
 
             0.12

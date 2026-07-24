@@ -9,14 +9,121 @@ canvas {
     display: block;
 }
 #gyroButton{
-    position:fixed;
-    left:50%;
-    bottom:30px;
-    transform:translateX(-50%);
-    padding:14px 22px;
-    border:none;
-    border-radius:14px;
-    font-size:18px;
-    cursor:pointer;
-    z-index:1000;
+
+    position: fixed;
+
+    left: 50%;
+    bottom: 40px;
+
+    transform: translateX(-50%);
+
+    display: flex;
+    align-items: center;
+    gap: 14px;
+
+    padding: 16px 28px;
+
+    border: 1px solid rgba(255,255,255,.12);
+
+    border-radius: 999px;
+
+    background: rgba(8,10,20,.45);
+
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+
+    color: white;
+
+    font-family: "Inter", sans-serif;
+    font-size: 17px;
+    font-weight: 500;
+
+    cursor: pointer;
+
+    transition: .35s;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 0 20px rgba(120,120,255,.12),
+        inset 0 0 20px rgba(255,255,255,.03);
+
+    z-index: 999;
+}
+
+#gyroButton:hover{
+
+    transform:
+        translateX(-50%)
+        translateY(-2px);
+
+    background: rgba(18,22,40,.65);
+
+    border-color: rgba(180,200,255,.35);
+
+    box-shadow:
+        0 0 35px rgba(120,150,255,.22);
+
+}
+
+#gyroButton:active{
+
+    transform:
+        translateX(-50%)
+        scale(.96);
+
+}
+
+#gyroButton .icon{
+
+    font-size: 23px;
+
+}
+
+#gyroButton .text{
+
+    letter-spacing: .6px;
+
+}
+
+@media(max-width:700px){
+
+    #gyroButton{
+
+        bottom: 28px;
+
+        padding: 18px 28px;
+
+        font-size: 18px;
+
+    }
+
+}
+
+#gyroButton::before{
+
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    background:
+        linear-gradient(
+            120deg,
+            transparent,
+            rgba(255,255,255,.12),
+            transparent
+        );
+
+    transform:translateX(-120%);
+
+    transition:.8s;
+
+}
+
+#gyroButton:hover::before{
+
+    transform:translateX(120%);
+
 }

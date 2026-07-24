@@ -32,7 +32,18 @@ export function createGyroControls(gyro) {
 
         gyro.connect();
 
-        button.style.display = "none";
+        button.style.transform =
+    "translateX(-50%) scale(.85)";
+
+button.style.opacity = "0";
+
+button.style.pointerEvents = "none";
+
+setTimeout(() => {
+
+    button.remove();
+
+},350);
 
         const element = document.documentElement;
 
