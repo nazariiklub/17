@@ -46,6 +46,37 @@ export class PhotoViewer {
 
         this.photo.scale.set(0.01, 0.01, 0.01);
 
+        const maxHeight = 3.8;
+const maxWidth = maxHeight * camera.aspect;
+
+let width = aspect * 3;
+let height = 3;
+
+if (width > maxWidth) {
+
+    const k = maxWidth / width;
+
+    width *= k;
+    height *= k;
+
+}
+
+if (height > maxHeight) {
+
+    const k = maxHeight / height;
+
+    width *= k;
+    height *= k;
+
+}
+
+this.photo.geometry.dispose();
+
+this.photo.geometry = new THREE.PlaneGeometry(
+    width,
+    height
+);
+
         this.camera.add(this.photo);
 
         this.isOpen = true;
