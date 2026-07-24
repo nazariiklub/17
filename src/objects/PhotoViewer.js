@@ -27,10 +27,29 @@ export class PhotoViewer {
         const image = texture.image;
         const aspect = image.width / image.height;
 
-        const geometry = new THREE.PlaneGeometry(
-            aspect * 3,
-            3
-        );
+        const maxSize = 3;
+
+let width;
+let height;
+
+if (aspect >= 1) {
+
+    // Горизонтальне фото
+    width = maxSize;
+    height = maxSize / aspect;
+
+} else {
+
+    // Вертикальне фото
+    height = maxSize;
+    width = maxSize * aspect;
+
+}
+
+const geometry = new THREE.PlaneGeometry(
+    width,
+    height
+);
 
         const material = new THREE.MeshBasicMaterial({
 
