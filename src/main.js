@@ -133,42 +133,46 @@ loadNextPhoto();
 
 
 createMouseLook(controller);
+ 
+window.addEventListener("pointerdown", onPointer);
 
-window.addEventListener("click",(event)=>{
+function onPointer(event) {
 
-    mouse.x = (event.clientX/window.innerWidth)*2-1;
+    mouse.x =
+        (event.clientX / window.innerWidth) * 2 - 1;
 
-    mouse.y = -(event.clientY/window.innerHeight)*2+1;
+    mouse.y =
+        -(event.clientY / window.innerHeight) * 2 + 1;
 
-    raycaster.setFromCamera(mouse,camera);
+    raycaster.setFromCamera(mouse, camera);
 
     const hit = raycaster.intersectObjects(photoMeshes);
 
     if (viewer.isOpen) {
 
-    viewer.close();
+        viewer.close();
 
-    return;
+        return;
+
+    }
+
+    if (hit.length > 0) {
+
+        const index = hit[0].object.userData.index;
+
+        viewer.open(
+
+            hit[0].object.userData.texture,
+
+            photoData[index].place,
+
+            photoData[index].year
+
+        );
+
+    }
 
 }
-
-if (hit.length) {
-
-    const index = hit[0].object.userData.index;
-
-viewer.open(
-
-    hit[0].object.userData.texture,
-
-    photoData[index].place,
-
-    photoData[index].year
-
-);
-
-}
-
-});
 
 function animate() {
     requestAnimationFrame(animate);
