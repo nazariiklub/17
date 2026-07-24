@@ -15,9 +15,11 @@ import { createSpace } from "./objects/Space";
 import { createStars } from "./effects/Stars";
 import { createMoon } from "./effects/Moon";
 import { createNebula } from "./effects/Nebula.js";
+import { PhotoViewer } from "./objects/PhotoViewer";
 
 
 
+import photoData from "./data/photoData";
 import photos from "./assets/photos";
 
 // Створюємо сцену
@@ -34,9 +36,18 @@ scene.add(stars);;
 const moon = createMoon();
 scene.add(moon);
 scene.add(createNebula());
+scene.add(camera);
 
 
+const raycaster = new THREE.Raycaster();
+const mouse = new THREE.Vector2();
 
+const viewer = new PhotoViewer(
+    scene,
+    camera
+);
+
+const photoMeshes = [];
 
 function resizeRenderer() {
 
@@ -103,7 +114,12 @@ function loadNextPhoto() {
 
         photo.lookAt(0, 0, 0);
 
-        scene.add(photo);
+        photo.userData.texture = texture;
+        photo.userData.index = currentPhoto;
+
+photoMeshes.push(photo);
+
+scene.add(photo);
 
         currentPhoto++;
 
@@ -118,10 +134,49 @@ loadNextPhoto();
 
 createMouseLook(controller);
 
+window.addEventListener("click",(event)=>{
+
+    mouse.x = (event.clientX/window.innerWidth)*2-1;
+
+    mouse.y = -(event.clientY/window.innerHeight)*2+1;
+
+    raycaster.setFromCamera(mouse,camera);
+
+    const hit = raycaster.intersectObjects(photoMeshes);
+
+    if (viewer.isOpen) {
+
+    viewer.close();
+
+    return;
+
+}
+
+if (hit.length) {
+
+    const index = hit[0].object.userData.index;
+
+viewer.open(
+
+    hit[0].object.userData.texture,
+
+    photoData[index].place,
+
+    photoData[index].year
+
+);
+
+}
+
+});
+
 function animate() {
     requestAnimationFrame(animate);
 
     gyro.update();
+
+    viewer.update();
+
     renderer.render(scene, camera);
 }
 

@@ -2,6 +2,10 @@ import * as THREE from 'three';
 
 export function createPhoto(texture) {
 
+    texture.generateMipmaps = false;
+    texture.minFilter = THREE.LinearFilter;
+    texture.magFilter = THREE.LinearFilter;
+
     const image = texture.image;
 
     const aspect = image.width / image.height;
@@ -12,16 +16,18 @@ export function createPhoto(texture) {
     );
 
     const material = new THREE.MeshBasicMaterial({
-    map: texture,
-    side: THREE.DoubleSide
 
-    
-});
+        map: texture,
 
-texture.generateMipmaps = false;
-texture.minFilter = THREE.LinearFilter;
-texture.magFilter = THREE.LinearFilter;
+        transparent: true,
 
+        side: THREE.DoubleSide
 
-    return new THREE.Mesh(geometry, material);
+    });
+
+    return new THREE.Mesh(
+        geometry,
+        material
+    );
+
 }
