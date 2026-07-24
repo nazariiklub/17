@@ -134,41 +134,46 @@ loadNextPhoto();
 
 createMouseLook(controller);
 
-window.addEventListener("click",(event)=>{
-
-    mouse.x = (event.clientX/window.innerWidth)*2-1;
-
-    mouse.y = -(event.clientY/window.innerHeight)*2+1;
-
-    raycaster.setFromCamera(mouse,camera);
-
-    const hit = raycaster.intersectObjects(photoMeshes);
+function openPhoto(event) {
 
     if (viewer.isOpen) {
 
-    viewer.close();
+        viewer.close();
+        return;
 
-    return;
+    }
 
-}
+    // На телефоні відкриваємо фото по центру екрана
+    if (event.pointerType === "touch") {
 
-if (hit.length) {
+        mouse.set(0, 0);
+
+    } else {
+
+        mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+        mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+    }
+
+    raycaster.setFromCamera(mouse, camera);
+
+    const hit = raycaster.intersectObjects(photoMeshes);
+
+    if (!hit.length) return;
 
     const index = hit[0].object.userData.index;
 
-viewer.open(
+    viewer.open(
 
-    hit[0].object.userData.texture,
+        hit[0].object.userData.texture,
+        photoData[index].place,
+        photoData[index].year
 
-    photoData[index].place,
-
-    photoData[index].year
-
-);
+    );
 
 }
 
-});
+window.addEventListener("pointerdown", openPhoto);
 
 function animate() {
     requestAnimationFrame(animate);
