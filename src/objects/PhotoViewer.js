@@ -12,6 +12,8 @@ export class PhotoViewer {
         this.photo = null;
         this.targetScale = 1;
 
+        
+
     }
 
     open(texture, place, year) {
@@ -46,36 +48,7 @@ export class PhotoViewer {
 
         this.photo.scale.set(0.01, 0.01, 0.01);
 
-        const maxHeight = 3.8;
-const maxWidth = maxHeight * camera.aspect;
-
-let width = aspect * 3;
-let height = 3;
-
-if (width > maxWidth) {
-
-    const k = maxWidth / width;
-
-    width *= k;
-    height *= k;
-
-}
-
-if (height > maxHeight) {
-
-    const k = maxHeight / height;
-
-    width *= k;
-    height *= k;
-
-}
-
-this.photo.geometry.dispose();
-
-this.photo.geometry = new THREE.PlaneGeometry(
-    width,
-    height
-);
+        
 
         this.camera.add(this.photo);
 
@@ -83,12 +56,18 @@ this.photo.geometry = new THREE.PlaneGeometry(
 
         this.targetScale = 1;
 
+        if (aspect > this.camera.aspect) {
+
+    this.targetScale = this.camera.aspect / aspect;
+
+}
+
         // ---------- Підпис ----------
 
         const canvas = document.createElement("canvas");
 
-        canvas.width = 1200;
-        canvas.height = 260;
+        canvas.width = 900;
+        canvas.height = 200;
 
         const ctx = canvas.getContext("2d");
 
@@ -159,7 +138,7 @@ this.photo.geometry = new THREE.PlaneGeometry(
 
         );
 
-        label.scale.set(7.5,1.65,1);
+        label.scale.set(5.8,1.25,1);
 
         label.position.set(
             0,
